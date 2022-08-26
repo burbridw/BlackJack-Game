@@ -36,3 +36,33 @@ button {
     margin-right: 30px;
     text-align: center;
 }
+.cards-box {
+    position: absolute;
+    top: -400px;
+}
+
+.card {
+    width: 35px;
+    height: 60px;
+    background-color: white;
+    /*margin: auto;*/
+    margin: 5px;
+    border-radius: 15%;
+    color: black;
+    padding: 4px 0 0 0;
+    text-align: center;
+    font-size: 25px;
+    display: inline-block;
+    border: 1px solid black;
+}
+
+.red {
+    color: red;
+}
+
+.winnerCards {
+    background-color: lightgreen;
+}
+.loserCards {
+    background-color: lightcoral;
+}
