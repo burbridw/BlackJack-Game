@@ -20,3 +20,6 @@ The dealer's turn - following most conventions of how blackjack dealers play the
 Tracking aces, and adjusting their value from 11 to 1 as necessary.
 
 I would like at some point, to visually represent the cards on screen as they are being drawn, but that will be secondary to engaging with further learning resources.
+
+EDIT: 27.8.2022: Updated to include vidual representations of the cards being dealt, as well as correcting ace functionality. If I continue to play with this project, I am considering adding a "bank" from which you can get loands which are repayed a little bit each turn. Along with that some function to determine the size of the loan and how repayments are managed. 
+Some audio would also be nice, pleaseant background music with cues for draw, win, lose etc. Of course also with functions to mute music, sounds and all.
