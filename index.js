@@ -27,7 +27,7 @@ let currentLoan = 0
 let loanPayment = 0
 let loanTotalPayment = 0
 let loanAmount = 0
-
+let bankIsOpen = false
 
 const gameCountEl = document.getElementById("gameCounter")
 const startBtn = document.getElementById("start-btn")
@@ -134,7 +134,7 @@ const cardImgArrD = [cardAd,card2d,card3d,card4d,card5d,card6d,card7d,card8d,car
 maxBet = Number(cash)
 
 bankEl.style.display = "none"
-cashEl.textContent = "$" + cash
+cashEl.textContent = `Cash: $${cash}`
 loanDisp.textContent = `Current Loans: $${currentLoan}`
 paymentDisp.textContent = `Payment per round: $${loanTotalPayment}`
 
@@ -148,11 +148,19 @@ drawBtn.addEventListener("click",function(){
     newCard(isAlive, hasBlackJack, false, playerAceCount, playerSum, cards, renderGame)
 })
 gotoBankBtn.addEventListener("click",function(){
+    if (bankIsOpen) {
+    bankEl.style.display ="none"
+    bankInput.value = ""
+    bankIsOpen = false
+    } else {
     bankEl.style.display = "block"
+    bankIsOpen = true
+    }
 })
 leaveBankBtn.addEventListener("click",function(){
     bankEl.style.display ="none"
     bankInput.value = ""
+    bankIsOpen = false
 })
 
 function getRandomCard() {
@@ -162,7 +170,7 @@ function getRandomCard() {
 
 function cycleLoan() {
     bankInput.value = ""
-    if (betEl.value > betEl.getAttribute("max")) {
+    if (betEl.value > maxBet && betEl.value <= Number(cash)) {
         message = "Your loan payments make that bet impossible"
         messageEl.textContent = message
     } else if (loanTotalPayment === currentLoan && loanTotalPayment <= cash) {
@@ -202,7 +210,7 @@ function startGame() {
     console.log(cash)
     console.log(currentBet)
     console.log(maxBet)
-    if (Number(cash) >= Number(currentBet) && currentBet !== "" && Number(currentBet) > 0 && Number(currentBet) <= Number(maxBet)) {
+    if ( Number(cash) >= Number(currentBet) && Number(currentBet) <= Number(maxBet) && Number(currentBet) > 0 ) {
     hasBlackJack = false
     dealerHasBlackJack = false
     isAlive = true
@@ -212,7 +220,7 @@ function startGame() {
     dealerAceCount = 0
     dealerSum = 0
     cash = cash - currentBet
-    cashEl.textContent = "$" + cash
+    cashEl.textContent = `Cash: $${cash}`
     dealerPlaying.textContent = ""
     dealerEl.textContent = ""
     dealerSumEl.textContent = ""
@@ -230,6 +238,7 @@ function startGame() {
         messageEl.textContent = message
         gamesPlayed -= 1
         gameCountEl.textContent = "Games played: " + gamesPlayed
+        betEl.value = maxBet
     }
 }}
 
@@ -238,13 +247,13 @@ function renderGame() {
     for (let i = 0; i < cards.length; i++) {
        /* cardsEl.textContent += cards[i] + " "*/
        if (Math.floor( Math.random()*4 ) === 0) {
-        cardsEl.appendChild(cardImgArrS[cards[i]-1].cloneNode(true))
+        cardsEl.append(cardImgArrS[cards[i]-1].cloneNode(true))
        } else if (Math.floor( Math.random()*4 ) === 1) {
-        cardsEl.appendChild(cardImgArrH[cards[i]-1].cloneNode(true))
+        cardsEl.append(cardImgArrH[cards[i]-1].cloneNode(true))
        } else if (Math.floor( Math.random()*4 ) === 2) {
-        cardsEl.appendChild(cardImgArrC[cards[i]-1].cloneNode(true))
+        cardsEl.append(cardImgArrC[cards[i]-1].cloneNode(true))
        } else {
-        cardsEl.appendChild(cardImgArrD[cards[i]-1].cloneNode(true))
+        cardsEl.append(cardImgArrD[cards[i]-1].cloneNode(true))
        }
     }
     sumEl.textContent = "Sum: " + playerSum
@@ -253,7 +262,7 @@ function renderGame() {
         message = "Winner! 5 Card Trick - Hit NEW GAME to begin"
         messageEl.textContent = message
         cash = cash + (currentBet*2)
-        cashEl.textContent = "$" + cash
+        cashEl.textContent = `Cash: $${cash}`
 
     } else if (playerSum <= 20) {
         message = "Draw or Hold?"
@@ -261,7 +270,7 @@ function renderGame() {
         message = "Blackjack! You're a winner!"
         hasBlackJack = true
         cash = cash + (currentBet*2.5)
-        cashEl.textContent = "$" + cash
+        cashEl.textContent = `Cash: $${cash}`
     } else if (playerSum === 21 && cards.length > 2) {
         hold()
     } else if (playerSum > 21 && playerAceCount > 0) {
@@ -346,14 +355,14 @@ function renderDealer() {
             messageEl.textContent = message
             dealerPlaying.textContent = "Dealer loses"
             cash = cash + (currentBet*2)
-            cashEl.textContent = "$" + cash
+            cashEl.textContent = `Cash: $${cash}`
 
         } else if (playerSumAtHold === dealerSum) {
             message = "Push, all bets refunded - Hit NEW GAME to begin"
             messageEl.textContent = message
             dealerPlaying.textContent = "Push"
             cash = cash + (currentBet*1)
-            cashEl.textContent = "$" + cash
+            cashEl.textContent = `Cash: $${cash}`
             isAlive = false
         } else {
             message = "Game Over - Hit NEW GAME to begin"
@@ -367,7 +376,7 @@ function renderDealer() {
             message = "Push, all bets refunded - Hit NEW GAME to begin"
             messageEl.textContent = message
             cash = cash + (currentBet*1)
-            cashEl.textContent = "$" + cash
+            cashEl.textContent = `Cash: $${cash}`
         } else if (dealerSum > playerSumAtHold) {
             message = "Game Over - Hit NEW GAME to begin"
             messageEl.textContent = message
@@ -380,7 +389,7 @@ function renderDealer() {
             message = "Push, all bets refunded - Hit NEW GAME to begin"
             messageEl.textContent = message
             cash = cash + (currentBet*1)
-            cashEl.textContent = "$" + cash
+            cashEl.textContent = `Cash: $${cash}`
         } else if (dealerHasBlackJack === true && hasBlackJack !== true) {
             message = "Game Over - Hit NEW GAME to begin"
             messageEl.textContent = message
@@ -396,7 +405,7 @@ function renderDealer() {
         dealerPlaying.textContent = "Dealer is bust"
         dealerIsAlive = false
         cash = cash + (currentBet*2)
-        cashEl.textContent = "$" + cash
+        cashEl.textContent = `Cash: $${cash}`
     }
     messageEl.textContent = message
 }
@@ -416,7 +425,7 @@ function takeLoan () {
     loanPayment = Number(currentLoan) /10
     loanTotalPayment = Number(loanTotalPayment) + Number(loanPayment)
     betEl.setAttribute("max", cash - loanTotalPayment)
-    cashEl.textContent = "$" + cash
+    cashEl.textContent = `Cash: $${cash}`
     paymentDisp.textContent = `Payment per round: $${loanTotalPayment}`
     loanDisp.textContent = `Current Loans: $${currentLoan}`
     bankrupt === false
@@ -428,7 +437,7 @@ function repayLoan() {
         cash = Number(cash) - Number(repayAmount)
         currentLoan = Number(currentLoan) - Number(repayAmount)
         loanTotalPayment = currentLoan
-        cashEl.textContent = "$" + cash
+        cashEl.textContent = `Cash: $${cash}`
         loanDisp.textContent = `Current Loans: $${currentLoan}`
         bankMessage.textContent = "Thank you for your payment"
         paymentDisp.textContent = `Payment per round: $0`
@@ -437,13 +446,14 @@ function repayLoan() {
         currentLoan = Number(currentLoan) - Number(repayAmount)
         loanTotalPayment = Number(currentLoan) / 10
         paymentDisp.textContent = `Payment per round: $${loanTotalPayment}`
-        cashEl.textContent = "$" + cash
+        cashEl.textContent = `Cash: $${cash}`
         loanDisp.textContent = `Current Loans: $${currentLoan}`
         bankMessage.textContent = "Thank you for your payment"
     } else if (repayAmount > cash && repayAmount <= currentLoan) {
         bankMessage.textContent = "You do not have enough cash"
     } else if (repayAmount > currentLoan) {
         bankMessage.textContent = "That amount exceeds your loan!"
+        bankInput.value = currentLoan
     }
 }
 

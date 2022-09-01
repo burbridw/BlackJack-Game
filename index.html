@@ -3,8 +3,10 @@
     <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
         <link rel="stylesheet" href="index.css">
+        
     </head>
     <body>
+        <main>
         <h1>Blackjack</h1>
         <p id="gameCounter"></p>
         <p id="message-el">Hit NEW GAME to begin</p>
@@ -18,6 +20,19 @@
             <p id="cash"></p>
             <button id="goto-bank-btn">Bank</button>
         </div>
+        <div id="bank">
+            <h2>Welcome to the bank</h2>
+            <p id="bank-message">How may we help you?</p>
+            <button class ="bank-btn" id="take-loan-btn">Take Loan</button>
+            <input type="number" id="bank-input">
+            <button class="bank-btn" id="repay-loan-btn">Repay Loan</button>
+            <button class="bank-btn" id="leave-bank-btn">Leave the Bank</button>
+            <div class="bank-display">
+                <p id="loan-disp">Current Loans: </p>
+                <p id="payment-disp">Payment per round</p>
+            </div>
+        </div>
+        </main>
         <p id="dealer-playing"></p>
         <p id="dealer-cards"></p>
         <P id="dealer-sum"></P>
@@ -81,18 +96,10 @@
             <div class="card red" id="cardQd">Q<br>&#9830</div>
             <div class="card red" id="cardKd">K<br>&#9830</div>          
         </div>
-        <div id="bank">
-            <h2>Welcome to the bank</h2>
-            <p id="bank-message">How may we help you?</p>
-            <button class ="bank-btn" id="take-loan-btn">Take Loan</button>
-            <input type="number" id="bank-input">
-            <button class="bank-btn" id="repay-loan-btn">Repay Loan</button>
-            <button class="bank-btn" id="leave-bank-btn">Leave the Bank</button>
-            <div class="bank-display">
-                <p id="loan-disp">Current Loans: </p>
-                <p id="payment-disp">Payment per round</p>
-            </div>
-        </div>
+        
+        <!--<audio controls
+        src="./music/Backbay Lounge.mp3" autoplay="true">
+        </audio>-->
         <script src="index.js"></script>
     </body>
 </html>
